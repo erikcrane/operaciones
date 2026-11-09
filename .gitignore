@@ -1,0 +1,21 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Entorno virtual: cada ordenador crea el suyo con "uv sync"
+.venv
+
+# Configuración privada del correo (contraseña SMTP). Plantilla: .env.ejemplo
+.env
+
+# PDF generados (el servidor los guarda en pdfs/<ejercicio>/)
+pdfs/
+*.pdf
+
+# Rotación de cada ejercicio (tablas_salidas.json, cabeceras_salidas.json):
+# es estado de la ejecución, se crea solo junto a los PDF.
+*_salidas.json

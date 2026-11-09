@@ -1,0 +1,19 @@
+[project]
+name = "operaciones"
+version = "0.1.0"
+description = "Fichas PDF de ejercicios de matemáticas (multiplicaciones, divisiones...) con página web para generarlas y enviarlas por correo"
+readme = "README.md"
+authors = [
+    { name = "erikcrane", email = "erikcrane@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "reportlab>=5.1.0",
+]
+
+[project.scripts]
+operaciones = "operaciones:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"

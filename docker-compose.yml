@@ -1,0 +1,48 @@
+services:
+  operaciones:
+    build: .
+    image: operaciones:local
+    container_name: operaciones
+    restart: unless-stopped
+    user: "1000:1000"         # usuario sin privilegios (no root) con el que corre el contenedor
+    init: true                # para que "docker stop" pare el servidor al momento
+    environment:
+      TZ: Europe/Madrid       # zona horaria para los nombres de los PDF
+    secrets:
+      - operaciones_env       # el programa lo lee en /run/secrets/operaciones_env
+    volumes:
+      # Los PDF y la rotación de cada ejercicio se guardan en
+      # /app/pdfs/<ejercicio>. Con este volumen se conservan al recrear o
+      # actualizar el contenedor.
+      - operaciones_pdfs:/app/pdfs
+    # Sin "ports": Nginx Proxy Manager está en la misma red de Docker y
+    # llega directamente al contenedor. En NPM: Forward Hostname
+    # "operaciones" (el container_name) y Forward Port 80 (el puerto del
+    # servidor). Para meter el contenedor en la red de NPM, descomenta estas
+    # líneas y las del final, y pon el nombre de esa red:
+    # networks:
+    #   - npm
+
+# Datos privados del correo (contraseña SMTP), con el formato de .env.ejemplo.
+# No van en la imagen: Docker monta el fichero en el contenedor al arrancar.
+# Debe poder leerlo el usuario 1000 (el del contenedor). En Portainer, pon
+# aquí la ruta absoluta del fichero en el servidor.
+secrets:
+  operaciones_env:
+    file: ./.env
+
+# Volumen con nombre para /app/pdfs: lo crea y gestiona Docker (en Portainer
+# aparece en "Volumes"). Al crearse copia los permisos de /app/pdfs de la
+# imagen, así que el usuario 1000 puede escribir sin hacer nada más.
+# "docker compose down" no lo borra; solo "docker compose down -v" o
+# borrarlo a mano. "name" fija su nombre real; sin él, Docker le pondría
+# delante el nombre del proyecto o del stack (operaciones_operaciones_pdfs).
+volumes:
+  operaciones_pdfs:
+    name: operaciones_pdfs
+
+# La red de Nginx Proxy Manager (ya existe, la crea NPM): pon su nombre real.
+# networks:
+#   npm:
+#     external: true
+#     name: NOMBRE_DE_LA_RED_DE_NPM

@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+pdfs/
+*.pdf
+*_salidas.json
+.git/
+.gitignore
+.env
+.env.ejemplo
+.python-version
+.vscode
+docs/
+CLAUDE.md
+AYUDA.md
+Dockerfile
+docker-compose.yml
